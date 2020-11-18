@@ -12,8 +12,20 @@ canWidth = 10
 canHeight = 10
 
 #Probabilités d'être infecté : const_prop_a chances sur const_prop_b
+
 const_prop_a = 1
 const_prop_b = 5
+
+#Probabilités de mourir pendant l'infection
+
+const_mort_a = 1
+const_mort_b = 10
+
+#Temps de maladie
+
+const_maladie_a = 4
+const_maladie_b = 10
+
 
 
 
@@ -161,9 +173,9 @@ def infection(prop_a, prop_b):
                 infectes = compte_infectes(i, j)
                 if infectes >= 1 and propagation == 1:
                     personne[0] = 1
-                    temps_maladie = randint(4, 12)
+                    temps_maladie = randint(const_maladie_a, const_maladie_b)
                     personne[2] = temps_maladie
-                    bool_mort = randint(0, 1)
+                    bool_mort = randint(const_mort_a, const_mort_b)
                     personne[3] = bool_mort
                     matrice_propagation[i, j] = 1
             elif personne[0] == 1:
