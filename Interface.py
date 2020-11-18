@@ -14,17 +14,17 @@ canHeight = 10
 #Probabilités d'être infecté : const_prop_a chances sur const_prop_b
 
 const_prop_a = 1
-const_prop_b = 5
+const_prop_b = 10
 
 #Probabilités de mourir pendant l'infection
 
 const_mort_a = 1
-const_mort_b = 10
+const_mort_b = 3
 
 #Temps de maladie
 
 const_maladie_a = 4
-const_maladie_b = 10
+const_maladie_b = 5
 
 
 
@@ -168,9 +168,9 @@ def infection(prop_a, prop_b):
     for i in range(0, MatSizeX-1):
         for j in range(0, MatSizeY-1):
             personne = etat_case(i, j, temp_parametres_cases)
+            infectes = compte_infectes(i, j)
             if personne[0] == 0:
                 propagation = randint(prop_a, prop_b)
-                infectes = compte_infectes(i, j)
                 if infectes >= 1 and propagation == 1:
                     personne[0] = 1
                     temps_maladie = randint(const_maladie_a, const_maladie_b)
@@ -182,10 +182,11 @@ def infection(prop_a, prop_b):
                 personne[1] = personne[1] + 1
                 if personne[3] == 1:
                     if personne[1] == personne[2]:
-                        #matrice_propagation[i, j] = 3
+                        matrice_propagation[i, j] = 3
                         personne[0] = 3
                 elif personne[1] == personne[2]:
                     personne[0] = 2
+                    matrice_propagation[i, j] = 2
             temp_parametres_cases[i, j] = [personne[0], personne[1], personne[2], personne[3]]
     return temp_parametres_cases
 
