@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import os
+from Interface import *
 
 
 t=np.zeros((11,11))
@@ -39,7 +40,7 @@ def compteurVoisins(mat, i, j):
     return compteur
 
 
-def neighbors(i, j, matrice_propagation):
+def neighbors(i, j):
     borne_i = matrice_propagation.shape[1]
     borne_j = matrice_propagation.shape[0]
     mat_voisins = np.zeros(8)
@@ -92,8 +93,8 @@ def neighbors(i, j, matrice_propagation):
     return mat_voisins
 
 
-def compte_infectes(i, j, matrice_propagation):
-    voisins_mat = neighbors(i, j, matrice_propagation)
+def compte_infectes(i, j):
+    voisins_mat = neighbors(i, j)
     infectes = 0
     for voisin in voisins_mat:
         if voisin == 1 :
