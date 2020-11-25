@@ -6,20 +6,20 @@ from random import *
 
 master = Tk()
 
-MatSizeX = 130
-MatSizeY = 75
+MatSizeX = 100
+MatSizeY = 50
 canWidth = 10
 canHeight = 10
 
 #Probabilités d'être infecté : const_prop_a chances sur const_prop_b
 
 const_prop_a = 1
-const_prop_b = 10
+const_prop_b = 8
 
 #Probabilités de mourir pendant l'infection
 
 const_mort_a = 1
-const_mort_b = 3
+const_mort_b = 5
 
 #Temps de maladie
 
@@ -110,8 +110,8 @@ def compte_infectes(i, j):
 
 
 def initWindow(canWidth, canHeight):
-    widthW = canWidth * MatSizeX + MatSizeX
-    heightW = canHeight * MatSizeY + MatSizeY
+    widthW = canWidth * (MatSizeX-1) + MatSizeX-1
+    heightW = canHeight * (MatSizeY-1) + MatSizeY- 1
     w = Canvas(master, width=widthW, height=heightW)
     w.pack()
     return w
@@ -122,12 +122,12 @@ def refreshGrille(w,canWidth, canHeight):
     widthW = canWidth * MatSizeX + MatSizeX
     heightW = canHeight * MatSizeY + MatSizeY
 
-    for i in range(0, MatSizeY):
+    for i in range(0, MatSizeY-1):
         begX = 0
         Y = i * canHeight + i
         endX = widthW
         w.create_line(begX, Y, endX, Y, fill="#476042")
-    for i in range(0, MatSizeX):
+    for i in range(0, MatSizeX-1):
         X = i * canWidth + i
         begY = 0
         endY = heightW
@@ -240,6 +240,28 @@ def init_parametres_cases(MatSizeX, MatSizeY):
 def etat_case(i, j, parametres_cases):
     return (parametres_cases[i, j])
 
+def compteEachCase():
+    morts = 0
+    sains = 0
+    gueris = 0
+    for i in range(0, MatSizeX-1):
+        for j in range(0, MatSizeY-1):
+            if matrice_propagation[i,j] == 0:
+                sains = sains + 1
+            elif matrice_propagation[i,j] == 2:
+                gueris = gueris + 1
+            elif matrice_propagation[i,j] == 3:
+                morts = morts + 1
+    
+    nbIndividu = (MatSizeX-1) * (MatSizeY-1)
+    tauxInfect = ((nbIndividu-sains)/nbIndividu) * 100
+    tauxMort = (morts / nbIndividu) * 100
+    print('sains : '+ str(sains) + '\n')
+    print ('gueris : '+ str(gueris) + '\n')
+    print ('morts : ' + str(morts) + '\n');
+    print ('taux d\'infection : '+ str(tauxInfect)+'%'+'\n')
+    print ('taux de mortalité : '+ str(tauxMort)+'%'+'\n')
+
 #def main():
 
 
@@ -255,8 +277,7 @@ refreshGrille(w, canWidth, canHeight)
 color_case(matrice_propagation, w, canHeight)
 w.update()
 boucle(w, matrice_propagation, canWidth, canHeight, 300)
-
-mainloop()
+compteEachCase()
 
 
 
